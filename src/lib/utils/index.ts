@@ -683,6 +683,11 @@ export const removeDetails = (content, types) => {
 	return content;
 };
 
+export const removeAllDetails = (content) => {
+	content = content.replace(/<details[^>]*>.*?<\/details>/gis, '');
+	return content;
+};
+
 export const processDetails = (content) => {
 	content = removeDetails(content, ['reasoning', 'code_interpreter']);
 
@@ -1153,7 +1158,7 @@ export const convertOpenApiToToolPayload = (openApiSpec) => {
 			const tool = {
 				type: 'function',
 				name: operation.operationId,
-				description: operation.summary || 'No description available.',
+				description: operation.description || operation.summary || 'No description available.',
 				parameters: {
 					type: 'object',
 					properties: {},
